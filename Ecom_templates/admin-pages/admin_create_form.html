@@ -1,0 +1,22 @@
+{% extends 'Ecom_base.html' %}
+
+{% block title %} Admin Login {% endblock title %}
+
+{% block content %}
+    <h3 class="my-4 text-center">Admin Login Form</h3>
+    <div class="row">
+        <div class="mx-auto">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+ 
+                {% if error %}
+                    <li style="color: red;" class="mb-2">{{ error }}</li>
+                {% endif %}
+
+                <input type="submit" value="Login an Admin" class="btn btn-primary">
+            </form> 
+        </div>
+    </div>
+
+{% endblock content %}

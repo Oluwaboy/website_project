@@ -1,0 +1,24 @@
+{% extends 'Ecom_base.html' %}
+
+{% block title %} Customer Login {% endblock title %}
+
+{% block content %}
+
+    <h3 class="my-4 text-center">Customer Login Form</h3>
+    <div class="row">
+        <div class="mx-auto">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                {% if error_form %}
+                    <li style="color: red;" class="mb-2">{{ error_form }}</li>
+                {% endif %}
+
+                <input type="submit" value="Login as a customer" class="btn btn-primary">
+            </form> 
+            <p>Or don't have an account? <a href="{% url 'Ecommerce:user_register' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Register Here</a>
+        </div>
+    </div>
+
+{% endblock content %}

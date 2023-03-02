@@ -1,0 +1,28 @@
+{% extends 'Ecom_base.html' %}
+
+{% block title %} Customer Order Detail {% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="text-center mb-5">Search result for <span class="text-info">{{ request.GET.product_search }}</span></h3>
+            {% for results in search_product_display %}
+                <div class="row my-3">
+                    <div class="col-lg-4 mb-4">
+                        <img src="{{ results.image.url }}" class="img-fluid" style="height: 300px; width: 100%;" alt="{{ results.title }}">
+                    </div>
+                    <div class="col-lg-8">
+                        <h3><a href="{% url 'Ecommerce:product_detail' results.slug %}" style="text-decoration: none;">{{ results.title }}</a></h3>
+                        <p>{{ results.description | truncatechars:20 }}</p>
+                        <p>Return Policy: {{ results.return_policy }}</p>
+                        <a href="{% url 'Ecommerce:add_to_cart' results.id %}" class="btn btn-primary mb-3">Add to Cart</a>
+                    </div>
+                </div>
+            {% empty %}
+                <h3 class="text-center">No result found for <span class="text-info">{{ request.GET.product_search }}</span></h3>
+            {% endfor %}
+        </div>
+    </div> 
+
+{% endblock content %}
+

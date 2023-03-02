@@ -1,0 +1,46 @@
+{% extends 'Ecom_base.html' %}
+
+{% block title %} My Profile {% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-lg-4 mx-auto">
+                <h3>My Detail Information</h3>
+                <p><span class="font-weight-bold">Name: </span>{{ customer_data.full_name }}</p>
+                <p><span class="font-weight-bold">Username: </span>{{ customer_data.user.username }}</p>
+                <p><span class="font-weight-bold">Email: </span>{{ customer_data.user.email }}</p>
+                <p><span class="font-weight-bold">Address: </span>{{ customer_data.address }}</p>
+                <p><span class="font-weight-bold">Joined on: </span>{{ customer_data.joined_on }}</p>
+            </div>
+            <div class="col-lg-8">
+                <h3>All My Orders</h3>
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Order ID</th>
+                                <th>Amount</th>
+                                <th>Ordered on</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in order_customer %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="{% url 'Ecommerce:customer_orderdetail' order.id %}">#ORDER_{{ order.id }}</a></td>
+                                    <td>{{ order.total }}</td>
+                                    <td>{{ order.created_at| timesince }} ago</td>
+                                    <td>{{ order.order_status }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+   </div>
+{% endblock content %}
+

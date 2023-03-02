@@ -1,0 +1,24 @@
+{% extends 'Ecom_base.html' %}
+
+{% block title %} Customer Registration {% endblock title %}
+
+{% block content %}
+
+    <style>
+        .errorlist { color: red; }
+    </style>
+
+    <h3 class="my-4 text-center">Customer Registration Form</h3>
+    <div class="row">
+        <div class="mx-auto">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Register as a customer" class="btn btn-primary">
+            </form> 
+            <p>Already have an account? <a href="{% url 'Ecommerce:user_login' %}">Login Here</a> 
+        </div>
+    </div>
+
+{% endblock content %}
+

@@ -1,0 +1,42 @@
+{% extends 'admin-pages/base.html' %}
+
+{% load humanize %}
+
+{% block title %}All Orders{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>All Orders</h3>
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Ordered on</th>
+                                <th>Amount</th> 
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in all_orders %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="{% url 'Ecommerce:admin_order_detail' order.id %}" style="text-decoration: none;">#ORDER_{{ order.id }}</a></td>
+                                    <td>{{ order.ordered_by }}</td>
+                                    <td>{{ order.created_at | timesince }} ago</td>
+                                    <td>{{ order.total | intcomma }}</td>
+                                    <td>{{ order.order_status }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>    
+{% endblock content %}
+

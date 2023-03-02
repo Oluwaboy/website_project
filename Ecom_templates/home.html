@@ -1,0 +1,63 @@
+{% extends 'Ecom_base.html' %}
+
+{% block title %} Home Page{% endblock title %}
+
+{% block content %}
+
+    <h1 class="text-center">Welcome to our ecommerce website.</h1>
+    <div class="row">
+        {% for p in product_list %}
+            <div class="col-lg-3">
+                <div class="m-3">
+                    <h3 class="mb-2"><a href="{% url 'Ecommerce:product_detail' p.slug %}" style="text-decoration: none;">{{ p.title }}</a></h3>
+                    <img src="{{ p.image.url }}" alt="{{ p.title }}" class="img-fluid" style="height: 300px; width: 100%; object-fit: cover; border-radius: 10px;">
+                   <p class="mt-2"><strong>Price: </strong><strike>N{{ p.marked_price }}</strike> N{{ p.selling_price }}</p>
+                   <a href="{% url 'Ecommerce:add_to_cart' p.id %}" class="btn btn-primary">Add to Cart</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% comment %}
+        <div class="paginator mb-3">
+            <span class="step-links">
+                {% if product_list.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ product_list.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">Page {{ product_list.number }} of {{ product_list.paginator.num_pages }}.</span>
+
+                {% if product_list.has_next %}
+                    <a href="?page={{ product_list.next_page_number }}">next</a>
+                    <a href="?page={{ product_list.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endcomment %}
+    
+    <ul class="pagination">
+        {% if product_list.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ product_list.previous_page_number }}">Previous</a></li>
+        {% else %}
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        {% endif %}
+
+        {% for i in product_list.paginator.page_range %} 
+            {% if i == product_list.number %}
+                <li class="page-item active"><a class="page-link">{{i}}</a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+            {% endif %}
+        {% endfor %}
+       
+        {% if product_list.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ product_list.next_page_number }}">Next</a></li>
+        {% else %} 
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>   
+        {% endif %}
+
+    </ul>
+
+{% endblock content %}
+

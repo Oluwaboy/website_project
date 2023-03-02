@@ -1,0 +1,20 @@
+{% extends 'admin-pages/base.html' %}
+
+{% block title %}All Category{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>All Categories</h2>
+                <a href="{% url 'Ecommerce:category_create' %}" class="btn btn-primary">Add Category</a>
+                <hr/>
+                {% for cat in all_categories %}
+                    <h3>{{ cat.title }}</h3>
+                    <p>{{ cat.slug }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+

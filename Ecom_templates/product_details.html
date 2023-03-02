@@ -1,0 +1,37 @@
+{% extends 'Ecom_base.html' %}
+
+{% block title %} {{ get_product_slug.title }} {% endblock title %}
+
+{% block content %}
+
+    <h3 class="my-3">Product: {{ get_product_slug.title }}</h3>
+    <div class="row">
+        <div class="col-lg-5">
+            <img src="{{ get_product_slug.image.url }}" class="img-fluid" alt="{{ get_product_slug.title }}" style="height: 350px; width: 100%; object-fit: cover; border-radius: 10px;">
+            
+            <div class="row mt-3">
+                {% for pi in get_product_slug.productimage_set.all %}
+                    <div class="col-lg-3">
+                        <a href="{{  pi.image.url }}" target="_blank">
+                            <img src="{{ pi.image.url }}" alt="{{ get_product_slug.title }}" class="imag-fluid" style="height: 100px; width: 100px;">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        <div class="col-lg-7">
+            <div class="my-4">
+                <h4>{{ get_product_slug.title }}(Viewed {{ get_product_slug.view_count }} times)</h4>
+                <h5>Category: {{ get_product_slug.category }}</h5>
+                <h5>Price: <strike>N{{ get_product_slug.marked_price }}</strike> {{ get_product_slug.selling_price }}</h5>
+                <a href="{% url 'Ecommerce:add_to_cart' get_product_slug.id  %}" class="btn btn-info mt-1">Add to Cart</a>
+                <p class="text-info my-2"><strong>Warranty:</strong> {{ get_product_slug.warranty }}</p>
+                <p class="text-info my-2"><strong>Return policy :</strong> {{ get_product_slug.return_policy }}</p> 
+                <p>{{ get_product_slug.description }}</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+

@@ -1,0 +1,56 @@
+{% extends 'Ecom_base.html' %}
+
+{% block title %} My Cart {% endblock title %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-lg-6">
+            <h3 class="mt-1">Items in the cart</h3>
+            <div class="my-3">
+                <a href="{% url 'Ecommerce:my_cart' %}" style="font-weight: bold;">Update cart</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Product</th>
+                            <th>Rate</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cp in cart_front.cartproduct_set.all %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ cp.product }}</td>
+                                <td>{{ cp.rate }}</td>
+                                <td>{{ cp.quantity }}</td>
+                                <td>{{ cp.subtotal }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        <tr>
+                            <th colspan="4" class="text-right">Total</th>
+                            <th>N{{ cart_front.total }}</th>
+                        </tr>    
+                    </tbody>
+                </table>
+            </div>  
+        </div>
+
+        <div class="col-lg-6">
+            <h3 class="mb-3">Checkout form</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Place order" class="btn btn-primary">
+            </form> 
+        </div>
+
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,62 @@
+{% extends 'Ecom_base.html' %}
+
+{% block title %} My Cart {% endblock title %}
+
+{% block content %}
+
+    <h2 class="text-center mb-3">Items in my cart</h2>
+    <div class="row mt-4">
+        <div class="table-responsive">
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Product</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for cp in cart_product.cartproduct_set.all %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ cp.product }}</td>
+                            <td>{{ cp.rate }}</td>
+                            <td>{{ cp.quantity }}</td>
+                            <td>{{ cp.subtotal }}</td>
+                            <td>
+                                <a href="{% url 'Ecommerce:manage_cart' cp.id %}?cart_action=increase" class="btn btn-primary">+</a>
+                                <a href="{% url 'Ecommerce:manage_cart' cp.id %}?cart_action=decrease" class="btn btn-warning">-</a>
+                                <a href="{% url 'Ecommerce:manage_cart' cp.id  %}?cart_action=remove" class="btn btn-danger">x</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    <tr>
+                        <th colspan="4" class="text-right">Total</th>
+                        <th>N{{ cart_product.total }}</th>
+
+                        <th>
+                            {% if cart_product.cartproduct_set.all %}
+                                <a href="{% url 'Ecommerce:empty_cart' %}">Empty cart</a>
+                            {% endif %}
+                        </th>
+                    </tr>
+
+                    {% if cart_product.cartproduct_set.all %} 
+                        <tr>
+                            <th><a href="{% url 'Ecommerce:checkout' %}" class="btn btn-info">Checkout</a></th>                          
+                        </tr>
+                    {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>   
+
+{% endblock content %}
+
+

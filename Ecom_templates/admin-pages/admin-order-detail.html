@@ -1,0 +1,66 @@
+{% extends 'admin-pages/base.html' %}
+
+{% load humanize %}
+
+{% block title %}Order Detail{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <h3 class="mb-3">Order Detail</h3>
+                <p><span class="font-weight-bold">Order ID: </span>#ORDER_{{ order_object.id }}</p>
+                <p><span class="font-weight-bold">Order Status: </span>{{ order_object.order_status }}</p>
+                <p><span class="font-weight-bold">Order On: </span>{{ order_object.created_at }}({{ order_object.created_at | timesince }} ago)</p>        
+                <p><span class="font-weight-bold">Customer Information: </span>{{ order_object.ordered_by }}, {{ order_object.mobile }}</p>
+                <p><span class="font-weight-bold">Shipping Address: </span>{{ order_object.shipping_address }}</p>
+
+                <h3>Ordered Item</h3>
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Item</th>
+                                <th>Rate</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cartp in order_object.cart.cartproduct_set.all  %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="{% url 'Ecommerce:product_detail' cartp.product.slug %}" style="text-decoration: none;">{{ cartp.product.title }}({{ cartp.product.id }})</a></td>
+                                    <td>{{ cartp.rate }}</td>
+                                    <td>{{ cartp.quantity }}</td>
+                                    <td>{{ cartp.subtotal }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <th colspan="4" class="text-right">Total:</th>
+                                <th>N{{ order_object.total|intcomma }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="mb-5"> 
+                        <form action="{% url 'Ecommerce:admin_order_change' order_object.id %}" method="POST">
+                            {% csrf_token %}
+                            <select name="select_order">
+                                {% for i,j in all_status %}
+                                    <option value="{{i}}" {% if i == order_object.order_status %} selected {% endif %}>{{j}}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-primary">Change</button>
+                        </form>
+                    </div> 
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %} 
+
+    

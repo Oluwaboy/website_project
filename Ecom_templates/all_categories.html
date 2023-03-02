@@ -1,0 +1,24 @@
+{% extends 'Ecom_base.html' %}
+
+{% block title %} All Products{% endblock title %}
+
+{% block content %}
+
+    <h3>All Categories and their products</h3>
+    {% for cat in categories %}
+        <h2 class="my-3">{{ cat.title }}</h2>
+        <div class="row">
+            {% for p in cat.product_set.all %}
+                <div class="col-lg-3">
+                    <div class="m-3">
+                        <h3 class="mb-2"><a href="{% url 'Ecommerce:product_detail' p.slug %}" style="text-decoration: none;">{{ p.title }}</a></h3>
+                        <img src="{{ p.image.url }}" alt="{{ p.title }}" class="img-fluid" style="height: 300px; width: 100%; object-fit: cover; border-radius: 10px;">
+                    <p class="mt-2"><strong>Price: </strong><strike>N{{ p.marked_price }}</strike> N{{ p.selling_price }}</p>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            {% endfor %}  
+        </div>
+    {% endfor %}
+
+{% endblock content %}

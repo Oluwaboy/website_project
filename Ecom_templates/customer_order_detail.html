@@ -1,0 +1,55 @@
+{% extends 'Ecom_base.html' %}
+
+{% load humanize %}
+
+{% block title %} Customer Order Detail {% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-lg-5">
+                <h3 class="mb-3">My Order Detail Information</h3>
+                <p><span class="font-weight-bold">Order ID: </span>#ORDER_{{ customer_order_detail.id }}</p>
+                <p><span class="font-weight-bold">Order Status: </span>{{ customer_order_detail.order_status }}</p>
+                <p><span class="font-weight-bold">Order On: </span>{{ customer_order_detail.created_at }}({{ customer_order_detail.created_at | timesince }} ago)</p>        
+                <p><span class="font-weight-bold">Customer Information: </span>{{ customer_order_detail.ordered_by }}, {{ customer_order_detail.mobile }}</p>
+                <p><span class="font-weight-bold">Shipping Address: </span>{{ customer_order_detail.shipping_address }}</p>
+            </div>
+
+            <div class="col-lg-7">
+                <h3>Ordered Item</h3>
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>SN</th>
+                                <th>Item</th>
+                                <th>Rate</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cartp in customer_order_detail.cart.cartproduct_set.all  %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="{% url 'Ecommerce:product_detail' cartp.product.slug %}" style="text-decoration: none;">{{ cartp.product.title }}({{ cartp.product.id }})</a></td>
+                                    <td>{{ cartp.rate }}</td>
+                                    <td>{{ cartp.quantity }}</td>
+                                    <td>{{ cartp.subtotal }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <th colspan="4" class="text-right">Total:</th>
+                                <th>N{{ customer_order_detail.total|intcomma }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
